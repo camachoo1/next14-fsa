@@ -12,22 +12,28 @@ import { convertToDateTime } from '../utils/convertToDateTime';
 export const register = async (
   values: z.infer<typeof RegisterSchema>
 ) => {
-  console.log(values);
-
   const hashedPassword = await new Argon2id().hash(values.password);
   const userId = generateId(15);
 
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      OR: [{ email: values.email }, { username: values.username }],
+    },
+  });
+
+  if (existingUser) {
+    return {
+      error: 'User Already Exists',
+    };
+  }
+
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         id: userId,
         username: values.username,
         email: values.email,
-        hashedPassword,
-      },
-      select: {
-        id: true,
-        username: true,
+        hashedPassword: hashedPassword,
       },
     });
 
@@ -45,9 +51,7 @@ export const register = async (
 
     return {
       success: true,
-      data: {
-        userId,
-      },
+      data: { user },
     };
   } catch (error: any) {
     return {

@@ -9,9 +9,16 @@ import type { Session, User } from 'lucia';
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
 export const lucia = new Lucia(adapter, {
+  getUserAttributes: (attributes) => {
+    return {
+      username: attributes.username,
+      email: attributes.email
+    }
+  },
   sessionCookie: {
     // this sets cookies with super long expiration
     // since Next.js doesn't allow Lucia to extend cookie expiration when rendering pages
+    name: 'session',
     expires: false,
     attributes: {
       // set to `true` when using HTTPS
@@ -24,6 +31,7 @@ export const lucia = new Lucia(adapter, {
 declare module 'lucia' {
   interface Register {
     Lucia: typeof lucia;
+    DatabaseUserAttributes: DatabaseUserAttributes
   }
 }
 
@@ -64,3 +72,8 @@ export const validateRequest = cache(async () => {
     session,
   };
 });
+
+interface DatabaseUserAttributes {
+  username: string,
+  email: string
+}

@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,7 +31,6 @@ export function RegisterForm() {
   });
 
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
-    console.log(values);
     const res = await register(values);
 
     if (res.error) {
