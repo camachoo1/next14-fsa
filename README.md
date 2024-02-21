@@ -33,7 +33,8 @@ Please refer to the following Excalidraw diagram for a visual representation of 
 
 [View Database Schema Diagram](https://excalidraw.com/#json=yCkLsEg6Us-doD651LtMf,ZklpkR0FOkxxjHvU-jdzPg)
 
-![Screenshot 2024-02-21 at 3 00 56 AM](https://github.com/camachoo1/next14-fsa/assets/116383442/849be00b-020f-4d0c-8e2d-1916cf8b243a)
+![Screenshot 2024-02-21 at 3 11 15 AM](https://github.com/camachoo1/next14-fsa/assets/116383442/48573d39-023d-431f-8b5b-00539c08367c)
+
 
 
 **Disclaimer**: This project is developed for education and portfolio purposes ONLY. This is not intended for commercial use. All trademarks, product names, company names and/or logos mentioned herein are the property of their respective owners.
