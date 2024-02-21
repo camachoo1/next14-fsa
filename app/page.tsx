@@ -10,8 +10,8 @@ export default async function Home() {
   }
 
   return (
-    <div>
-      <h1>Logged in as {user.username}</h1>
+    <div className='flex flex-col m-4'>
+      <h1 className=''>Logged in as {user.username}</h1>
       <p>User type: {user.role}</p>
       <form action={logout}>
         <button>Sign out</button>
