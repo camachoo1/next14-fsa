@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Alo Clone Overview
 
-## Getting Started
+This repository contains the source code for a fully featued clone of the Alo Yoga e-commerce platform. The project aims to replicate the essential functionalities and user experience of Alo Yoga's online store, focusing on providing a seamless shopping experience for activewear enthusiasts.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The Alo Clone will incorporate several key features to create a fully-comprehensive e-commerce experience:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **User Authentication**: Implements secure login and signup processes, currently limited GitHub OAuth integration for streamlined access.
+- **Product Catalog**: Users can explore a variety of activewear products, sorted into categories such as Men's and Women's clothing, along with accessories.
+- **Product Details**: Detailed pages for each product, showcasing images (hosted on an S3 bucket), available sizes, pricing, and descriptions.
+- **Shopping Cart**: An intuitive cart system where users can add items, adjust quantities, and review their potential purchases.
+- **Checkout Process**: Integration with Stripe for secure and efficient checkout experiences, allowing users to complete their purchases with ease.
+- **Responsive Design**: The design is fully responsive, ensuring a seamless shopping experience across various devices and screen sizes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This project leverages a modern tech stack to deliver a high-quality application with a positive user experience in mind:
 
-## Learn More
+- **Frontend**: Utilizes React and Next.js 14 for a dynamic, server-side rendered user interface.
+- **Styling**: Tailwind CSS is used for its utility-first approach to styling, facilitating responsive design implementation.
+- **Backend**: Node.js serves as the runtime environment, with Prisma ORM for database interactions.
+- **Database**: PostgreSQL is employed for persistent storage of user, product, and transaction data.
+- **Authentication**: Lucia is integrated for handling authentication workflows and session management.
+- **Image Storage**: Product images are stored and managed using an Amazon S3 bucket.
+- **Payment Processing**: Stripe is integrated to handle secure payment transactions during checkout.
 
-To learn more about Next.js, take a look at the following resources:
+## Database Design and Schema
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The database schema is thoughtfully designed to include tables and relations for users, sessions, shopping carts, cart items, and products. It also utilizes enums for product sizes and categories to ensure data consistency.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Please refer to the following Excalidraw diagram for a visual representation of the schema:
 
-## Deploy on Vercel
+[View Database Schema Diagram](https://excalidraw.com/#json=yCkLsEg6Us-doD651LtMf,ZklpkR0FOkxxjHvU-jdzPg)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Screenshot 2024-02-21 at 3 00 56 AM](https://github.com/camachoo1/next14-fsa/assets/116383442/849be00b-020f-4d0c-8e2d-1916cf8b243a)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+**Disclaimer**: This project is developed for education and portfolio purposes ONLY. This is not intended for commercial use. All trademarks, product names, company names and/or logos mentioned herein are the property of their respective owners.
