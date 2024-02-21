@@ -17,3 +17,64 @@ body,
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@font-face {
+  font-family: 'Mont';
+  src: url('/public/FontsFree-Net-Mont-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Mont', sans-serif;
+}
+
+@keyframes extendUnderline {
+  from {
+    width: 0;
+    left: 50%;
+    right: 50%;
+  }
+  to {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+}
+
+@keyframes collapseUnderline {
+  from {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+  to {
+    width: 0;
+    left: 50%;
+    right: 50%;
+  }
+}
+
+@layer components {
+  .hover-underline-animation {
+    position: relative;
+    padding-bottom: 2px;
+    overflow: hidden;
+  }
+
+  .hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: white;
+    transition: none;
+    animation: collapseUnderline 0.3s forwards
+  }
+
+  .hover-underline-animation:hover::after {
+    animation: extendUnderline 0.3s forwards;
+  }
+}
