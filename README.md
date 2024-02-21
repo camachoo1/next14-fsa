@@ -33,7 +33,7 @@ Please refer to the following Excalidraw diagram for a visual representation of 
 
 [View Database Schema Diagram](https://excalidraw.com/#json=yCkLsEg6Us-doD651LtMf,ZklpkR0FOkxxjHvU-jdzPg)
 
-![Screenshot 2024-02-21 at 3 11 15 AM](https://github.com/camachoo1/next14-fsa/assets/116383442/48573d39-023d-431f-8b5b-00539c08367c)
+![Screenshot 2024-02-21 at 3 15 33 AM](https://github.com/camachoo1/next14-fsa/assets/116383442/e64fb04d-7a3c-4775-8775-7b68c162879f)
 
 
 
