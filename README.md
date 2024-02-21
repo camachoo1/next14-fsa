@@ -35,6 +35,4 @@ Please refer to the following Excalidraw diagram for a visual representation of 
 
 ![Screenshot 2024-02-21 at 3 15 33 AM](https://github.com/camachoo1/next14-fsa/assets/116383442/e64fb04d-7a3c-4775-8775-7b68c162879f)
 
-
-
-**Disclaimer**: This project is developed for education and portfolio purposes ONLY. This is not intended for commercial use. All trademarks, product names, company names and/or logos mentioned herein are the property of their respective owners.
+**Disclaimer**: This project is developed for education and portfolio purposes ONLY. This application is NOT intended for commercial use. All trademarks, product names, company names, and/or logos mentioned herein are the property of their respective owners.
