@@ -1,7 +1,7 @@
 import { lucia, validateRequest } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import Navbar from './_components/logo/Navbar';
+import Navbar from './_components/Navbar/Navbar';
 
 export default async function Home() {
   const { user } = await validateRequest();

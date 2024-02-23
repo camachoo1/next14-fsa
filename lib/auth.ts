@@ -4,22 +4,23 @@ import { Lucia, User, Session } from 'lucia';
 import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { GitHub } from 'arctic';
-import { User as DBUser } from '@prisma/client';
+import { User as DBUser,Cart } from '@prisma/client';
+
+interface DatabaseUserAttributes extends DBUser {
+  username: string;
+  githubId: number;
+  cart?: Cart | null;
+}
 
 const adapter = new PrismaAdapter(db.session, db.user);
 
 export const lucia = new Lucia(adapter, {
-  getUserAttributes: async (attributes) => {
-    const userWithCart = await db.user.findUnique({
-      where: { githubId: attributes.githubId },
-      include: { cart: true },
-    });
-
+  getUserAttributes: (attributes) => {
     return {
-      cart: userWithCart?.cart,
       username: attributes.username,
-      githubId: attributes.githubId
-    }
+      githubId: attributes.githubId,
+      cart: attributes.cart
+    };
   },
   sessionCookie: {
     // this sets cookies with super long expiration
@@ -42,7 +43,7 @@ export const github = new GitHub(
 declare module 'lucia' {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: Omit<DBUser, 'id'>;
+    DatabaseUserAttributes: Omit<DatabaseUserAttributes, 'id'>;
   }
 }
 

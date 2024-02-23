@@ -1,9 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { DialogDemo } from '../Modal/Modal';
+import { validateRequest } from '@/lib/auth';
 
-export default function Navbar() {
+export default async function Navbar() {
+  const { user } = await validateRequest();
+  console.log(user);
+
   return (
-    <nav className='fixed top-0 left-0 right-0 z-50 bg-transparent'>
+    <nav className='block top-0 left-0 right-0 z-50 bg-transparent mr-auto ml-auto'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex justify-between items-center py-3 md:justify-start'>
           {/* Logo */}
@@ -23,17 +28,17 @@ export default function Navbar() {
           {/* Category Links - Centered with the logo */}
           <div className='flex-grow flex items-center justify-start space-x-6'>
             <Link href='/collections/women'>
-              <span className='text-base font-medium text-white hover:text-gray-300 cursor-pointer hover-underline-animation'>
+              <span className='text-base font-medium hover:text-gray-300 cursor-pointer hover-underline-animation'>
                 WOMEN
               </span>
             </Link>
             <Link href='/collections/men'>
-              <span className='text-base font-medium text-white hover:text-gray-300 cursor-pointer hover-underline-animation'>
+              <span className='text-base font-medium hover:text-gray-300 cursor-pointer hover-underline-animation'>
                 MEN
               </span>
             </Link>
             <Link href='/collections/accessories'>
-              <span className='text-base font-medium text-white hover:text-gray-300 cursor-pointer hover-underline-animation'>
+              <span className='text-base font-medium hover:text-gray-300 cursor-pointer hover-underline-animation'>
                 ACCESSORIES
               </span>
             </Link>
@@ -42,11 +47,18 @@ export default function Navbar() {
           {/* Nav Links - Aligned to the right */}
           <div className='hidden md:flex items-center space-x-10 ml-10'>
             <Link href='/about'>
-              <span className='text-base font-medium text-white hover:text-gray-300 cursor-pointer hover-underline-animation'>
+              <span className='text-base font-medium hover:text-gray-300 cursor-pointer hover-underline-animation'>
                 ABOUT
               </span>
             </Link>
-            <Link href='/login'>
+            {!!user ? (
+              <span className='text-base font-medium hover:text-gray-300 cursor-pointer hover-underline-animation'>
+                Hi, {user?.username}
+              </span>
+            ) : (
+              <DialogDemo />
+            )}
+            {/* <Link href='/login'>
               <span className='flex items-center gap-1 text-base font-medium text-white hover:text-gray-300 cursor-pointer hover-underline-animation'>
                 <Image
                   src='/person.svg'
@@ -56,7 +68,7 @@ export default function Navbar() {
                 />
                 LOGIN{'  '}
               </span>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
