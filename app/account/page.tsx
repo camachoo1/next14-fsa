@@ -1,6 +1,7 @@
 import AccountMenu from "@/components/account-menu";
 import { validateRequest } from "@/lib/auth";
 import { usePathname, useSearchParams } from "next/navigation";
+import DynamicContent from './_components/DynamicContent';
 
 const orders = [
   {
@@ -39,7 +40,7 @@ export default async function AccountPage() {
     <div className="container mx-auto flex pt-32 dark:text-white">
       <div className="flex columns-2 items-center">
         <AccountMenu searchParams={{ view: "order-history" }} />
-        Order History
+        <DynamicContent />
       </div>
     </div>
   );
