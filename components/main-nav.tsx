@@ -2,8 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBagIcon, UserIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
+import { validateRequest } from "@/lib/auth";
 
-const Navbar = () => {
+export default async function Navbar() {
+  const { user } = await validateRequest();
+
   return (
     // Main container
     <header className="shadow-sm dark:text-white">
@@ -32,15 +35,30 @@ const Navbar = () => {
         <div className="flex cursor-pointer items-center justify-between gap-5">
           <SearchIcon size={24} />
 
-          <div className="group flex items-center gap-1 border-b-2 border-black dark:border-white">
-            <UserIcon
-              size={24}
-              className="group-hover:fill-black dark:group-hover:fill-white"
-            />
-            <span className="pt-1 text-sm uppercase ">
-              Sign in to get rewards
-            </span>
-          </div>
+          {!user ? (
+            <Link
+              href="/login/github"
+              className="group flex items-center gap-1 border-b-2 border-black dark:border-white"
+            >
+              <UserIcon
+                size={24}
+                className="group-hover:fill-black dark:group-hover:fill-white"
+              />
+              <span className="pt-1 text-sm uppercase ">
+                Sign in to get rewards
+              </span>
+            </Link>
+          ) : (
+            <div className="group flex items-center gap-1 border-b-2 border-black dark:border-white">
+              <UserIcon
+                size={24}
+                className="group-hover:fill-black dark:group-hover:fill-white"
+              />
+              <span className="pt-1 text-sm uppercase tracking-tight">
+                Hi {user.username}!
+              </span>
+            </div>
+          )}
 
           <ShoppingBagIcon size={24} />
 
@@ -49,6 +67,4 @@ const Navbar = () => {
       </nav>
     </header>
   );
-};
-
-export default Navbar;
+}

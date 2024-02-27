@@ -10,7 +10,16 @@ export default async function Home() {
   // }
 
   return (
-    <main className="m-auto my-10 max-w-5xl space-y-10 px-3">Hello Alo</main>
+    <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
+      {user ? (
+        <div>
+          <p>{user?.username}</p>
+          <p>{user?.githubId}</p>
+        </div>
+      ) : (
+        "Hello Alo"
+      )}
+    </main>
   );
 }
 
