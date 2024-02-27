@@ -9,10 +9,10 @@ export default async function Navbar() {
 
   return (
     // Main container
-    <header className="border-b-[1px] border-black dark:text-white dark:border-white">
-      <nav className="m-auto flex max-w-full justify-between px-9 py-5 ">
-        {/* Right side of navbar */}
-        <div className="flex cursor-pointer items-center justify-between gap-6">
+    <header className=" dark:border-white dark:text-white">
+      <nav className="flex max-w-full justify-between border-b-[1px] border-black/20 px-9 py-5 ">
+        {/* Left side of navbar */}
+        <div className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold">
           <Link
             href="/"
             className="gap-3 overflow-x-hidden overflow-y-hidden dark:invert"
@@ -31,7 +31,7 @@ export default async function Navbar() {
           <h2 className="hover-underline-animation pt-5">ACCESSORIES</h2>
         </div>
 
-        {/* Left side of navbar */}
+        {/* Right side of navbar */}
         <div className="flex cursor-pointer items-center justify-between gap-5">
           <SearchIcon size={24} />
 
@@ -49,15 +49,18 @@ export default async function Navbar() {
               </span>
             </Link>
           ) : (
-            <div className="group flex items-center gap-1 border-b-2 border-black dark:border-white">
+            <Link
+              href="/account"
+              className="group flex items-center gap-1 border-b-2 border-black dark:border-white"
+            >
               <UserIcon
                 size={24}
                 className="group-hover:fill-black dark:group-hover:fill-white"
               />
-              <span className="pt-1 text-sm uppercase tracking-tight">
-                Hi {user.username}!
-              </span>
-            </div>
+              <p className="pt-1 text-sm uppercase tracking-tight">
+                Hi <span className="font-semibold">{user.username}!</span>
+              </p>
+            </Link>
           )}
 
           <ShoppingBagIcon size={24} />

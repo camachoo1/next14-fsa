@@ -18,19 +18,39 @@ export default async function AccountMenu({
     redirect("/");
   }
   return (
-    <aside className="sticky top-0 h-fit rounded-lg p-4 md:w-[260px] dark:text-white">
-      <form action={action}>
+    <aside className="sticky top-0 h-fit rounded-lg p-4 md:w-[260px]">
+      <form action={menuAction}>
         <div className="flex flex-col items-start gap-y-2">
-          <button name="view" type="submit" value="edit">
+          <button
+            name="view"
+            type="submit"
+            value="edit"
+            className="hover:text-muted-foreground"
+          >
             Account Information
           </button>
-          <button name="view" type="submit" value="order-history">
+          <button
+            name="view"
+            type="submit"
+            value="order-history"
+            className="hover:text-muted-foreground"
+          >
             Order History
           </button>
-          <button name="view" type="submit" value="wishlist">
+          <button
+            name="view"
+            type="submit"
+            value="wishlist"
+            className="hover:text-muted-foreground"
+          >
             Wishlist
           </button>
-          <button name="view" type="submit" value="logout">
+          <button
+            name="view"
+            type="submit"
+            value="logout"
+            className="hover:text-muted-foreground"
+          >
             Sign out
           </button>
         </div>
@@ -39,7 +59,7 @@ export default async function AccountMenu({
   );
 }
 
-async function action(formData: FormData) {
+async function menuAction(formData: FormData) {
   "use server";
   const values = Object.fromEntries(formData.entries());
   const { view } = accountViewSchema.parse(values);
