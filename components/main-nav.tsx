@@ -5,12 +5,14 @@ import { ModeToggle } from "./ModeToggle";
 
 const Navbar = () => {
   return (
+    // Main container
     <header className="shadow-sm dark:text-white">
       <nav className="m-auto flex max-w-7xl justify-between px-3 py-5 ">
+        {/* Right side of navbar */}
         <div className="flex cursor-pointer items-center justify-between gap-6">
           <Link
             href="/"
-            className="dark:invert gap-3 overflow-x-hidden overflow-y-hidden"
+            className="gap-3 overflow-x-hidden overflow-y-hidden dark:invert"
           >
             <Image
               src="/alo.svg"
@@ -20,11 +22,13 @@ const Navbar = () => {
               className=""
             />
           </Link>
-
+          {/* TODO: Change these to hold the different categories */}
           <h2 className="hover-underline-animation pt-5">WOMEN</h2>
           <h2 className="hover-underline-animation pt-5">MEN</h2>
           <h2 className="hover-underline-animation pt-5">ACCESSORIES</h2>
         </div>
+
+        {/* Left side of navbar */}
         <div className="flex cursor-pointer items-center justify-between gap-5">
           <SearchIcon size={24} />
 
