@@ -18,20 +18,6 @@ body,
   display: none;
 }
 
-@font-face {
-  font-family: "Mont";
-  src: url("/public/FontsFree-Net-Mont-Bold.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-body {
-  font-family: "Mont", sans-serif;
-  font-size: 0.9375rem;
-  line-height: 1.2;
-  color: #000;
-}
-
 @keyframes extendUnderline {
   from {
     width: 0;
