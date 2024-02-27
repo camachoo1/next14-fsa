@@ -1,7 +1,6 @@
-import { lucia, validateRequest } from '@/lib/auth';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import Navbar from './_components/Navbar/Navbar';
+import { lucia, validateRequest } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export default async function Home() {
   const { user } = await validateRequest();
@@ -11,17 +10,17 @@ export default async function Home() {
   // }
 
   return (
-    <Navbar />
+    <main className="m-auto my-10 max-w-5xl space-y-10 px-3">Hello Alo</main>
   );
 }
 
 async function logout(): Promise<ActionResult> {
-  'use server';
+  "use server";
   const { session } = await validateRequest();
 
   if (!session) {
     return {
-      error: 'Unauthorized',
+      error: "Unauthorized",
     };
   }
 
@@ -30,9 +29,9 @@ async function logout(): Promise<ActionResult> {
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
-  return redirect('/login');
+  return redirect("/login");
 }
 
 interface ActionResult {

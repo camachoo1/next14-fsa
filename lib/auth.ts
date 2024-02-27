@@ -7,9 +7,9 @@ import { GitHub } from 'arctic';
 import { User as DBUser,Cart } from '@prisma/client';
 
 interface DatabaseUserAttributes extends DBUser {
-  username: string;
-  githubId: number;
-  cart?: Cart | null;
+  readonly username: string;
+  readonly githubId: number;
+  readonly cart?: Cart | null;
 }
 
 const adapter = new PrismaAdapter(db.session, db.user);
