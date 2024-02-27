@@ -9,8 +9,8 @@ export default async function Navbar() {
 
   return (
     // Main container
-    <header className="shadow-sm dark:text-white">
-      <nav className="m-auto flex max-w-7xl justify-between px-3 py-5 ">
+    <header className="border-b-[1px] border-black dark:text-white dark:border-white">
+      <nav className="m-auto flex max-w-full justify-between px-9 py-5 ">
         {/* Right side of navbar */}
         <div className="flex cursor-pointer items-center justify-between gap-6">
           <Link
