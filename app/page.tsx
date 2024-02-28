@@ -27,7 +27,7 @@ export default async function Home() {
       <Suspense fallback={<div>Loading...</div>}>
         <div className="flex columns-2 items-center dark:text-white">
           {products?.map((product) => (
-            <>
+            <section key={product.id}>
               <div className="flex flex-col gap-y-1">
                 <ProductCard imgs={product.images} alt={product.name} />
                 <h1 className="text-lg font-semibold">{product.name}</h1>
@@ -49,7 +49,7 @@ export default async function Home() {
                   Add to Cart
                 </button>
               </div>
-            </>
+            </section>
           ))}
         </div>
       </Suspense>
