@@ -6,7 +6,8 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node /lib/seed.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.523.0",
@@ -21,6 +22,7 @@
     "arctic": "^1.2.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "embla-carousel-react": "^8.0.0",
     "fs": "^0.0.1-security",
     "lucia": "^3.0.1",
     "lucide-react": "^0.331.0",
@@ -32,6 +34,7 @@
     "react-hook-form": "^7.50.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node": "^10.9.2",
     "zod": "^3.22.4",
     "zustand": "^4.5.1"
   },

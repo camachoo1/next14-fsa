@@ -46,7 +46,7 @@ model CartItem {
 model Product {
   id          String     @id @default(uuid())
   name        String
-  images      Json
+  images      String[]
   category    Category
   gender      Gender
   price       Float
