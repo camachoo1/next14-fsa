@@ -3,6 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/main-nav";
 import { Montserrat } from "next/font/google";
+import { validateRequest } from "@/lib/auth";
+import ClientOnly from "./_components/ClientOnly";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -11,11 +13,12 @@ export const metadata: Metadata = {
   description: "aloyogaclone.vercel.com",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { user } = await validateRequest();
   return (
     <html lang="en">
       <body className={`${montserrat.className} min-w-[350px]`}>
@@ -24,7 +27,9 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <Navbar />
+          <ClientOnly>
+            <Navbar currentUser={user} />
+          </ClientOnly>
           {children}
         </ThemeProvider>
       </body>

@@ -3,13 +3,16 @@ import Link from "next/link";
 import { ShoppingBagIcon, UserIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { validateRequest } from "@/lib/auth";
+import { User } from "@prisma/client";
 
-export default async function Navbar() {
-  const { user } = await validateRequest();
+interface NavbarProps {
+  currentUser?: User | null;
+}
 
+export default function Navbar({ currentUser }: NavbarProps) {
   return (
     // Main container
-    <header className=" dark:border-white dark:text-white">
+    <header className="sticky top-0 overflow-auto bg-white/80 dark:border-white dark:bg-black/80 dark:text-white">
       <nav className="flex max-w-full justify-between border-b-[1px] border-black/20 px-9 py-5 ">
         {/* Left side of navbar */}
         <div className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold">
@@ -35,7 +38,7 @@ export default async function Navbar() {
         <div className="flex cursor-pointer items-center justify-between gap-5">
           <SearchIcon size={24} />
 
-          {!user ? (
+          {!currentUser ? (
             <Link
               href="/login/github"
               className="group flex items-center gap-1 border-b-2 border-black dark:border-white"
@@ -58,7 +61,8 @@ export default async function Navbar() {
                 className="group-hover:fill-black dark:group-hover:fill-white"
               />
               <p className="pt-1 text-sm uppercase tracking-tight">
-                Hi <span className="font-semibold">{user.username}!</span>
+                Hi{" "}
+                <span className="font-semibold">{currentUser.username}!</span>
               </p>
             </Link>
           )}
