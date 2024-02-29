@@ -6,7 +6,13 @@ export default function NotFound() {
   return (
     <div className="m-auto flex w-full flex-col items-center justify-center py-20">
       <div className="m-auto flex flex-col items-center space-y-1">
-        <Image src="/oops.webp" alt="oops" height={100} width={100} />
+        <Image
+          src="/oops.webp"
+          alt="oops"
+          height={100}
+          width={100}
+          className="dark:invert"
+        />
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-3xl font-bold uppercase tracking-wider">
             There's nothing here
@@ -19,12 +25,12 @@ export default function NotFound() {
       </div>
 
       <div className="flex p-10">
-        <button className="mx-2 flex items-center text-nowrap bg-black px-4 py-3 text-xs uppercase text-white">
+        <button className="mx-2 flex items-center text-nowrap bg-black px-4 py-3 text-xs uppercase text-white dark:bg-white dark:text-black">
           <a className="" href="/">
             Go to the home page
           </a>
         </button>
-        <button className="mx-2 flex items-center text-nowrap bg-black px-4 py-3 text-xs uppercase text-white">
+        <button className="mx-2 flex items-center text-nowrap bg-black px-4 py-3 text-xs uppercase text-white dark:bg-white dark:text-black">
           Shop new arrivals
         </button>
       </div>
