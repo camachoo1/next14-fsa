@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBagIcon, UserIcon, SearchIcon } from "lucide-react";
-import { ModeToggle } from "./ModeToggle";
+import { ModeToggle } from "../../components/ModeToggle";
 import { validateRequest } from "@/lib/auth";
 import { User } from "@prisma/client";
 

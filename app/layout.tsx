@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/main-nav";
+import Navbar from "@/app/_components/main-nav";
 import { Montserrat } from "next/font/google";
 import { validateRequest } from "@/lib/auth";
 import ClientOnly from "./_components/ClientOnly";
+import Footer from "./_components/footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default async function RootLayout({
   const { user } = await validateRequest();
   return (
     <html lang="en">
-      <body className={`${montserrat.className} min-w-[350px]`}>
+      <body
+        className={`${montserrat.className} min-w-[350px] overscroll-none`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -31,6 +34,7 @@ export default async function RootLayout({
             <Navbar currentUser={user} />
           </ClientOnly>
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

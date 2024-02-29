@@ -5,7 +5,7 @@ export default async function Home() {
   const products = await getProducts();
   return (
     // Main Container for home page
-    <main className="relative m-auto h-full w-full">
+    <main className="relative m-auto h-full w-full overscroll-contain">
       {/* Container for Banner Video */}
       <section className="relative mb-24 flex w-full overflow-hidden">
         <Banner />
