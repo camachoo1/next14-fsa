@@ -1,6 +1,8 @@
 import Banner from "./_components/Banner";
+import { getProducts } from "./api/products/route";
 
 export default async function Home() {
+  const products = await getProducts();
   return (
     // Main Container for home page
     <main className="relative m-auto h-full w-full">

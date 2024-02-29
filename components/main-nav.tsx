@@ -12,7 +12,7 @@ interface NavbarProps {
 export default function Navbar({ currentUser }: NavbarProps) {
   return (
     // Main container
-    <header className="sticky top-0 overflow-auto bg-white/80 dark:border-white dark:bg-black/80 dark:text-white">
+    <header className=" sticky top-0 z-50 overflow-auto bg-white/80 dark:border-white dark:bg-black/80 dark:text-white">
       <nav className="flex max-w-full justify-between border-b-[1px] border-black/20 px-9 py-5 ">
         {/* Left side of navbar */}
         <div className="flex cursor-pointer items-center justify-between gap-4 text-lg font-bold">
