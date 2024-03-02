@@ -1,6 +1,5 @@
-import { lucia, validateRequest } from "@/lib/auth";
+import { validateRequest } from "@/lib/auth";
 import accountViewSchema from "@/lib/validations/accountviewschema";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 interface AccountMenuProps {
@@ -72,27 +71,6 @@ async function menuAction(formData: FormData) {
   });
   redirect(`/account?${searchParams.toString()}`);
 }
-
-async function logout(): Promise<ActionResult> {
-  "use server";
-  const { session } = await validateRequest();
-
-  if (!session) {
-    return {
-      error: "Unauthorized",
-    };
-  }
-
-  await lucia.invalidateSession(session.id);
-  const sessionCookie = lucia.createBlankSessionCookie();
-  cookies().set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
-  return redirect("/");
-}
-
-interface ActionResult {
-  error: string | null;
+function logout() {
+  throw new Error("Function not implemented.");
 }
