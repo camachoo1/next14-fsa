@@ -100,6 +100,7 @@ export default function Modal({
               rounded-lg 
               border-0 
               bg-white 
+              dark:bg-background
               shadow-lg 
               outline-none 
               focus:outline-none 
@@ -136,7 +137,7 @@ export default function Modal({
               <div className="relative flex-auto p-6">{body}</div>
               {/* FOOTER */}
               <div className="flex flex-col gap-2 p-6">
-                <div className="flex w-full items-center gap-4">
+                <div className="flex w-full items-center gap-4 dark:text-white">
                   <Button
                     variant="default"
                     disabled={disabled}
