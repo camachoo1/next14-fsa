@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface GitHubUser {
   id: number;
-  login: string;
   name: string;
   email: string;
   accessToken: string;
@@ -18,6 +17,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
 
+  // Retrieve the 'state' stored in cookies to prevent CSRF attacks
   const storedState = cookies().get("github_oauth_state")?.value ?? null;
 
   if (!code || !state || !storedState || state !== storedState) {
@@ -29,6 +29,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const tokens = await github.validateAuthorizationCode(code);
 
+    // Fetch the GitHub user's profile using the access token
     const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const githubUser: GitHubUser = await githubUserResponse.json();
 
+    // Fetch the GitHub user's emails
     const emailsResponse = await fetch("https://api.github.com/user/emails", {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
@@ -45,23 +47,28 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     });
 
     const emails = await emailsResponse.json();
+
+    // Find the primary email
     const primaryEmail = emails.find((email: any) => email.primary) ?? null;
     if (!primaryEmail) {
+      // If no primary email is found, return a 400 Bad Request response
       return new NextResponse("No primary email address", {
         status: 400,
       });
     }
 
+    // Handle user registration or login in a database transaction
     return await db.$transaction(async (tx) => {
+      // Check if the user already exists in the database
       const existingUser = await tx.user.findUnique({
         where: { email: primaryEmail.email },
       });
 
+      // If the user doesn't exist, create a new user and OAuth account
       if (!existingUser) {
         const newUser = await tx.user.create({
           data: {
             email: primaryEmail.email,
-            username: githubUser.login,
             name: githubUser.name,
           },
         });
@@ -75,6 +82,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           },
         });
 
+        // Create a session for the new user
         const session = await lucia.createSession(newUser.id, {});
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(
@@ -82,6 +90,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           sessionCookie.value,
           sessionCookie.attributes,
         );
+
+        // Redirect the user to the homepage
         return new NextResponse(null, {
           status: 302,
           headers: {
@@ -89,6 +99,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           },
         });
       } else {
+        // If the user exists, update their OAuth account and create a session
         await tx.oAuthAccount.create({
           data: {
             providerId: "github",
@@ -105,6 +116,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           sessionCookie.value,
           sessionCookie.attributes,
         );
+
+        // Redirect the user to the homepage
         return new NextResponse(null, {
           status: 302,
           headers: {
@@ -114,12 +127,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       }
     });
   } catch (err: any) {
+    // Handle OAuth2 request errors specifically
     if (err instanceof OAuth2RequestError) {
       return new NextResponse(null, {
         status: 400,
       });
     }
 
+    // Handle other errors with a 500 Internal Server Error response
     return new NextResponse(null, {
       status: 500,
     });

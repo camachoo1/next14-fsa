@@ -55,8 +55,7 @@ export default function Navbar({ currentUser }: NavbarProps) {
                   className="group-hover:fill-black dark:group-hover:fill-white"
                 />
                 <p className="pt-1 text-sm uppercase tracking-tight">
-                  Hi{" "}
-                  <span className="font-semibold">{currentUser.username}!</span>
+                  Hi <span className="font-semibold">{currentUser.name}!</span>
                 </p>
               </Link>
             )}
