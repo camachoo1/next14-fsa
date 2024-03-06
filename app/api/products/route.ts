@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db } from "@/lib/db/db";
 
 export async function getProducts() {
   try {

@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/app/_components/main-nav";
 import { Montserrat } from "next/font/google";
-import { validateRequest } from "@/lib/auth";
+import { validateRequest } from "@/lib/auth/auth";
 import ClientOnly from "./_components/ClientOnly";
 import Footer from "./_components/footer";
 
@@ -22,9 +22,7 @@ export default async function RootLayout({
   const { user } = await validateRequest();
   return (
     <html lang="en">
-      <body
-        className={`${montserrat.className} min-w-[350px] overscroll-none`}
-      >
+      <body className={`${montserrat.className} min-w-[350px] overscroll-none`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

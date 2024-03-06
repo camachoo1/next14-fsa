@@ -11,11 +11,14 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  username String
-  githubId Int       @unique
-  sessions Session[]
-  cart     Cart?
+  id             String         @id @default(uuid())
+  name           String
+  username       String         @unique
+  email          String         @unique
+  hashedPassword String?
+  sessions       Session[]
+  oAuthAccount   OAuthAccount[]
+  cart           Cart?
 }
 
 model Session {
@@ -23,6 +26,17 @@ model Session {
   userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model OAuthAccount {
+  id             String    @id @default(uuid())
+  providerId     String
+  providerUserId String
+  userId         String
+  accessToken    String
+  refreshToken   String?
+  expiresAt      DateTime?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Cart {

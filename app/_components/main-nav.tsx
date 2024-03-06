@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBagIcon, UserIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "../../components/ModeToggle";
-import { validateRequest } from "@/lib/auth";
+import { validateRequest } from "@/lib/auth/auth";
 import { User } from "@prisma/client";
 
 interface NavbarProps {
