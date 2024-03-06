@@ -58,7 +58,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       });
 
       if (!existingUser) {
-        const newUser = await db.user.create({
+        const newUser = await tx.user.create({
           data: {
             email: primaryEmail.email,
             username: githubUser.login,
@@ -66,7 +66,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           },
         });
 
-        await db.oAuthAccount.create({
+        await tx.oAuthAccount.create({
           data: {
             providerId: "github",
             providerUserId: `${githubUser.id}`,

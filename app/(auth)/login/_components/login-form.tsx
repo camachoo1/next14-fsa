@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -33,24 +34,28 @@ export default function LoginForm() {
     <>
       <div className="flex w-full flex-col items-center justify-center space-y-2">
         <Button variant={"outline"} className="flex w-full">
-          <div className="mx-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-black bg-muted hover:bg-muted-foreground/30 active:bg-muted-foreground/30 dark:invert">
-            <img
-              src="/github-logo.png"
-              alt="github"
-              className="h-6 w-6 rounded-full object-cover"
-            />
-          </div>
-          Sign in with GitHub
+          <Link href="/login/github">
+            <div className="mx-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-black bg-muted hover:bg-muted-foreground/30 active:bg-muted-foreground/30 dark:invert">
+              <img
+                src="/github-logo.png"
+                alt="github"
+                className="h-6 w-6 rounded-full object-cover"
+              />
+            </div>
+            Sign in with GitHub
+          </Link>
         </Button>
         <Button variant={"outline"} className="flex w-full">
-          <div className="mx-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-black bg-muted hover:bg-muted-foreground/30 active:bg-muted-foreground/30 dark:invert">
-            <img
-              src="/linkedin-logo.jpg"
-              alt="github"
-              className="h-6 w-6 rounded-full object-cover"
-            />
-          </div>
-          Sign in with LinkedIn
+          <Link href="/login/google">
+            <div className="mx-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-black bg-muted hover:bg-muted-foreground/30 active:bg-muted-foreground/30 dark:invert">
+              <img
+                src="/linkedin-logo.jpg"
+                alt="github"
+                className="h-6 w-6 rounded-full object-cover"
+              />
+            </div>
+            Sign in with Google
+          </Link>
         </Button>
       </div>
 
