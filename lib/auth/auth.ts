@@ -10,7 +10,6 @@ const adapter = new PrismaAdapter(db.session, db.user);
 export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
-      username: attributes.username,
       name: attributes.name,
       email: attributes.email,
     };
@@ -63,9 +62,8 @@ export const validateRequest = cache(
 );
 
 interface DatabaseUserAttributes extends DBUser {
-  username: string;
   email: string;
-  fullName: string;
+  name: string;
 }
 
 // IMPORTANT!
