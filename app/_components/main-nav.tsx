@@ -4,6 +4,7 @@ import { ShoppingBagIcon, UserIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "../../components/ModeToggle";
 import { validateRequest } from "@/lib/auth/auth";
 import { User as DBUser } from "@prisma/client";
+import User from './user';
 
 interface NavbarProps {
   currentUser?: Omit<DBUser, "hashedPassword"> | null;
@@ -33,18 +34,7 @@ export default function Navbar({ currentUser }: NavbarProps) {
             <SearchIcon size={24} />
 
             {!currentUser ? (
-              <Link
-                href="/login/github"
-                className="group flex items-center gap-1 border-b-2 border-black dark:border-white"
-              >
-                <UserIcon
-                  size={24}
-                  className="group-hover:fill-black dark:group-hover:fill-white"
-                />
-                <span className="pt-1 text-sm uppercase ">
-                  Sign in to get rewards
-                </span>
-              </Link>
+              <User />
             ) : (
               <Link
                 href="/account"
