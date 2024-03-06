@@ -28,7 +28,6 @@ model Session {
 }
 
 model OAuthAccount {
-  id             String    @id @default(uuid())
   providerId     String
   providerUserId String
   userId         String
@@ -36,6 +35,8 @@ model OAuthAccount {
   refreshToken   String?
   expiresAt      DateTime?
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([providerId, providerUserId])
 }
 
 model Cart {

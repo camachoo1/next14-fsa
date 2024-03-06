@@ -70,6 +70,6 @@ interface DatabaseUserAttributes extends DBUser {
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: DBUser;
+    DatabaseUserAttributes: Omit<DBUser, 'hashedPassword'>;
   }
 }

@@ -17,6 +17,7 @@ export default async function AccountMenu({
   if (!user) {
     redirect("/");
   }
+  
   return (
     <aside className="sticky top-0 h-fit rounded-lg p-4 md:w-[260px]">
       <form action={menuAction}>

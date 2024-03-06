@@ -50,8 +50,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const googleUser: GoogleUser = await googleUserResponse.json();
 
+    // Initialize userId and reassign during db transaction
+    let userId;
+
     // Handle user registration or login in a database transaction.
-    return await db.$transaction(async (tx) => {
+    await db.$transaction(async (tx) => {
       // Check if a user with the given email already exists.
       const existingUser = await tx.user.findUnique({
         where: { email: googleUser.email },
@@ -66,59 +69,67 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
           },
         });
 
+        // If creating a new user reassign userId to the new user's id
+        userId = newUser.id;
+
         // Create OAuth account linkage.
         await tx.oAuthAccount.create({
           data: {
             providerId: "google",
             providerUserId: `${googleUser.id}`,
             accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken,
             expiresAt: tokens.accessTokenExpiresAt,
-            userId: newUser.id,
-          },
-        });
-
-        // Create and set a session cookie for the new user.
-        const session = await lucia.createSession(newUser.id, {});
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-        return new NextResponse(null, {
-          status: 302,
-          headers: {
-            Location: "/",
+            userId,
           },
         });
       } else {
+        // If we have an existing user assign userId to the existing users id
+        userId = existingUser.id;
+
         // Existing user login path, similar to registration but using existingUser data.
-        await tx.oAuthAccount.create({
-          data: {
+        await tx.oAuthAccount.upsert({
+          where: {
+            providerId_providerUserId: {
+              providerId: "google",
+              providerUserId: `${googleUser.id}`,
+            },
+          },
+          update: {
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
+            expiresAt: tokens.accessTokenExpiresAt,
+          },
+          create: {
             providerId: "google",
             providerUserId: `${googleUser.id}`,
-            userId: existingUser.id,
+            userId,
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
             expiresAt: tokens.accessTokenExpiresAt,
           },
         });
-        // Create a session for the existing user
-        const session = await lucia.createSession(existingUser.id, {});
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-        return new NextResponse(null, {
-          status: 302,
-          headers: {
-            Location: "/",
-          },
-        });
       }
+    });
+
+    // Check if userId is defined
+    if (typeof userId === "undefined") {
+      return new NextResponse(null, { status: 500 });
+    }
+
+    // Create a session for the user
+    const session = await lucia.createSession(userId, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    );
+    return new NextResponse(null, {
+      status: 302,
+      headers: {
+        Location: "/",
+      },
     });
   } catch (err: any) {
     if (err instanceof OAuth2RequestError) {

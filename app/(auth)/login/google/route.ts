@@ -1,6 +1,5 @@
 import { google } from "@/lib/auth/google";
 import { generateCodeVerifier, generateState } from "arctic";
-import { serializeCookie } from "oslo/cookie";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 

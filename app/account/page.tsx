@@ -1,6 +1,5 @@
 import AccountMenu from "@/app/account/_components/account-menu";
 import { validateRequest } from "@/lib/auth/auth";
-import { usePathname, useSearchParams } from "next/navigation";
 import DynamicContent from "./_components/DynamicContent";
 
 const orders = [
