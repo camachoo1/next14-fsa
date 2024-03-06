@@ -3,10 +3,10 @@ import Link from "next/link";
 import { ShoppingBagIcon, UserIcon, SearchIcon } from "lucide-react";
 import { ModeToggle } from "../../components/ModeToggle";
 import { validateRequest } from "@/lib/auth/auth";
-import { User } from "@prisma/client";
+import { User as DBUser } from "@prisma/client";
 
 interface NavbarProps {
-  currentUser?: User | null;
+  currentUser?: Omit<DBUser, "hashedPassword"> | null;
 }
 
 export default function Navbar({ currentUser }: NavbarProps) {

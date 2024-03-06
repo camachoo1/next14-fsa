@@ -1,6 +1,6 @@
 import { lucia } from "@/lib/auth/auth";
 import { github } from "@/lib/auth/github";
-import { db } from '@/lib/db/db';
+import { db } from "@/lib/db/db";
 import { OAuth2RequestError } from "arctic";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -57,8 +57,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       });
     }
 
+    // Initialize userId and reassign during transaction
+    let userId;
+
     // Handle user registration or login in a database transaction
-    return await db.$transaction(async (tx) => {
+    await db.$transaction(async (tx) => {
       // Check if the user already exists in the database
       const existingUser = await tx.user.findUnique({
         where: { email: primaryEmail.email },
@@ -73,6 +76,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           },
         });
 
+        // Reassign userId to be the new users id
+        userId = newUser.id;
+
         await tx.oAuthAccount.create({
           data: {
             providerId: "github",
@@ -81,50 +87,47 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             userId: newUser.id,
           },
         });
-
-        // Create a session for the new user
-        const session = await lucia.createSession(newUser.id, {});
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-
-        // Redirect the user to the homepage
-        return new NextResponse(null, {
-          status: 302,
-          headers: {
-            Location: "/",
-          },
-        });
       } else {
+        userId = existingUser.id;
         // If the user exists, update their OAuth account and create a session
-        await tx.oAuthAccount.create({
-          data: {
+        await tx.oAuthAccount.upsert({
+          where: {
+            providerId_providerUserId: {
+              providerId: "github",
+              providerUserId: `${githubUser.id}`,
+            },
+          },
+          update: {
+            accessToken: tokens.accessToken,
+          },
+          create: {
             providerId: "github",
             providerUserId: `${githubUser.id}`,
+            userId,
             accessToken: tokens.accessToken,
-            userId: existingUser.id,
-          },
-        });
-
-        const session = await lucia.createSession(existingUser.id, {});
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-
-        // Redirect the user to the homepage
-        return new NextResponse(null, {
-          status: 302,
-          headers: {
-            Location: "/",
           },
         });
       }
+    });
+
+    if (typeof userId === "undefined") {
+      return new NextResponse(null, { status: 500 });
+    }
+
+    const session = await lucia.createSession(userId, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    );
+
+    // Redirect the user to the homepage
+    return new NextResponse(null, {
+      status: 302,
+      headers: {
+        Location: "/",
+      },
     });
   } catch (err: any) {
     // Handle OAuth2 request errors specifically
