@@ -1,4 +1,5 @@
-import { validateRequest } from "@/lib/auth";
+import logout from "@/actions/logout";
+import { validateRequest } from "@/lib/auth/auth";
 import accountViewSchema from "@/lib/validations/accountviewschema";
 import { redirect } from "next/navigation";
 
@@ -70,7 +71,4 @@ async function menuAction(formData: FormData) {
     ...(view && { view }),
   });
   redirect(`/account?${searchParams.toString()}`);
-}
-function logout() {
-  throw new Error("Function not implemented.");
 }

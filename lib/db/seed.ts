@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db } from "@/lib/db/db";
 import { products } from "@/lib/products";
 import { Category, Gender, Size } from "@prisma/client";
 

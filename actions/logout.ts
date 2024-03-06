@@ -1,10 +1,10 @@
-'use server'
+"use server";
 
-import { validateRequest, lucia } from '@/lib/auth';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { validateRequest, lucia } from "@/lib/auth/auth";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-async function logout(): Promise<ActionResult> {
+export default async function logout(): Promise<ActionResult> {
   const { session } = await validateRequest();
 
   if (!session) {
