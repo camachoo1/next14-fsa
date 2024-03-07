@@ -6,6 +6,8 @@ import { Montserrat } from "next/font/google";
 import { validateRequest } from "@/lib/auth/auth";
 import ClientOnly from "./_components/ClientOnly";
 import Footer from "./_components/footer";
+import Modal from "@/components/modals/modal";
+import AuthModal from '@/components/modals/auth-modal';
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -29,6 +31,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <ClientOnly>
+            <AuthModal />
             <Navbar currentUser={user} />
           </ClientOnly>
           {children}
