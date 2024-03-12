@@ -89,7 +89,7 @@ const AuthModal = () => {
       </div>
 
       <div className="flex w-full flex-col items-center justify-center space-y-2">
-        <Link href="/login/github" className="w-full">
+        <Link href="/auth/github" className="w-full">
           <Button variant={"outline"} className="flex w-full">
             <div className="mx-2 flex cursor-pointer items-center justify-center gap-x-2 border-black">
               <img
@@ -102,7 +102,7 @@ const AuthModal = () => {
           </Button>
         </Link>
 
-        <Link href="/login/google" className="w-full">
+        <Link href="/auth/google" className="w-full">
           <Button variant={"outline"} className="flex w-full">
             <div className="mx-2 flex cursor-pointer items-center justify-center gap-x-2 border-black">
               <img
