@@ -34,7 +34,7 @@ export default function LoginForm() {
     <>
       <div className="flex w-full flex-col items-center justify-center space-y-2">
         <Button variant={"outline"} className="flex w-full">
-          <Link href="/login/github">
+          <Link href="/auth/github">
             <div className="mx-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-black bg-muted hover:bg-muted-foreground/30 active:bg-muted-foreground/30 dark:invert">
               <img
                 src="/github-logo.png"
@@ -46,7 +46,7 @@ export default function LoginForm() {
           </Link>
         </Button>
         <Button variant={"outline"} className="flex w-full">
-          <Link href="/login/google">
+          <Link href="/auth/google">
             <div className="mx-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-black bg-muted hover:bg-muted-foreground/30 active:bg-muted-foreground/30 dark:invert">
               <img
                 src="/linkedin-logo.jpg"

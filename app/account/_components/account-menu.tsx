@@ -1,4 +1,4 @@
-import logout from "@/actions/logout";
+import logout from "@/actions/auth/logout";
 import { validateRequest } from "@/lib/auth/auth";
 import accountViewSchema from "@/lib/validations/accountviewschema";
 import { redirect } from "next/navigation";
