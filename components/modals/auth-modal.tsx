@@ -20,10 +20,12 @@ import { z } from "zod";
 import { LoginSchema } from "@/app/types";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { login, register } from '@/actions/auth/login';
 
 const AuthModal = () => {
   const router = useRouter();
   const authModal = useAuthModal();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -31,15 +33,19 @@ const AuthModal = () => {
       password: "",
     },
   });
-  const { register, handleSubmit } = useForm<FieldValues>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  // const { register, handleSubmit } = useForm<FieldValues>({
+  //   defaultValues: {
+  //     email: "",
+  //     password: "",
+  //   },
+  // });
   console.log(authModal.modalType);
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {};
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    // authModal.modalType === 'Login' ? await login(data) : await register(data)
+    const res = await login(values)
+    return console.log(res)
+  };
 
   const onToggle = useCallback(() => {
     authModal.toggleModal();
@@ -129,7 +135,7 @@ const AuthModal = () => {
     <Modal
       isOpen={authModal.isOpen}
       title={authModal.modalType as string}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(onSubmit)}
       body={bodyContent}
       actionLabel="Continue"
       onClose={authModal.closeModal}
