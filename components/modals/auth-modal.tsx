@@ -17,34 +17,53 @@ import {
 import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { LoginSchema } from "@/app/types";
+import { LoginSchema, RegisterSchema } from "@/app/types";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { login, register } from '@/actions/auth/login';
+import { login, register } from "@/actions/auth/login";
 
 const AuthModal = () => {
   const router = useRouter();
   const authModal = useAuthModal();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+  const form = useForm<z.infer<typeof LoginSchema | typeof RegisterSchema>>({
+    resolver:
+      authModal.modalType === "Login"
+        ? zodResolver(LoginSchema)
+        : zodResolver(RegisterSchema),
+    defaultValues:
+      authModal.modalType === "Login"
+        ? {
+            email: "",
+            password: "",
+          }
+        : {
+            email: "",
+            password: "",
+            confirmPassword: "",
+            name: "",
+          },
   });
-  // const { register, handleSubmit } = useForm<FieldValues>({
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //   },
-  // });
-  console.log(authModal.modalType);
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    // authModal.modalType === 'Login' ? await login(data) : await register(data)
-    const res = await login(values)
-    return console.log(res)
+  const onSubmit = async (
+    values: z.infer<typeof LoginSchema | typeof RegisterSchema>,
+  ) => {
+    if (authModal.modalType === "Login" && "password" in values) {
+      const res = await login(values as z.infer<typeof LoginSchema>);
+      console.log(res);
+      if (res.success) {
+        authModal.closeModal();
+      }
+    } else if (
+      authModal.modalType === "Register" &&
+      "confirmPassword" in values
+    ) {
+      const res = await register(values as z.infer<typeof RegisterSchema>);
+      console.log(res);
+      if (res.success) {
+        authModal.closeModal();
+      }
+    }
   };
 
   const onToggle = useCallback(() => {
@@ -80,6 +99,41 @@ const AuthModal = () => {
             </FormItem>
           )}
         />
+        {authModal.modalType === "Register" && (
+          <>
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl className="w-full">
+                    <Input
+                      placeholder="Confirm Password"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl className="w-full">
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </>
+        )}
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
