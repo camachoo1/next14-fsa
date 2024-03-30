@@ -4,8 +4,9 @@ import { LoginSchema, RegisterSchema } from "@/app/types";
 import { z } from "zod";
 import * as argon from "argon2";
 import { db } from "@/lib/db/db";
-import { lucia } from "@/lib/auth/auth";
+import { lucia, validateRequest } from "@/lib/auth/auth";
 import { cookies } from "next/headers";
+import { redirect } from 'next/navigation';
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   try {
@@ -32,7 +33,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       existingUser.hashedPassword,
       values.password,
     );
-    console.log({ validPassword });
 
     if (!validPassword) {
       return {
@@ -93,3 +93,26 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     }
   }
 };
+
+export default async function logout(): Promise<ActionResult> {
+  const { session } = await validateRequest();
+
+  if (!session) {
+    return {
+      error: "Unauthorized",
+    };
+  }
+
+  await lucia.invalidateSession(session.id);
+  const sessionCookie = lucia.createBlankSessionCookie();
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes,
+  );
+  return redirect("/");
+}
+
+interface ActionResult {
+  error: string | null;
+}
