@@ -1,10 +1,8 @@
 "use client";
 
 import { useAuthModal } from "@/hooks/useAuthModal";
-import { redirect, useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "./modal";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useCallback } from "react";
 import {
   Form,
@@ -23,7 +21,6 @@ import Link from "next/link";
 import { login, register } from "@/actions/auth";
 
 const AuthModal = () => {
-  const router = useRouter();
   const authModal = useAuthModal();
 
   const form = useForm<z.infer<typeof LoginSchema | typeof RegisterSchema>>({
