@@ -1,10 +1,8 @@
 "use client";
 
 import { useAuthModal } from "@/hooks/useAuthModal";
-import { useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "./modal";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useCallback } from "react";
 import {
   Form,
@@ -20,10 +18,9 @@ import { z } from "zod";
 import { LoginSchema, RegisterSchema } from "@/app/types";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { login, register } from "@/actions/auth/login";
+import { login, register } from "@/actions/auth";
 
 const AuthModal = () => {
-  const router = useRouter();
   const authModal = useAuthModal();
 
   const form = useForm<z.infer<typeof LoginSchema | typeof RegisterSchema>>({
@@ -50,18 +47,24 @@ const AuthModal = () => {
   ) => {
     if (authModal.modalType === "Login" && "password" in values) {
       const res = await login(values as z.infer<typeof LoginSchema>);
-      console.log(res);
       if (res.success) {
         authModal.closeModal();
+        return {
+          success: "Login successful",
+          redirect: "/",
+        };
       }
     } else if (
       authModal.modalType === "Register" &&
       "confirmPassword" in values
     ) {
       const res = await register(values as z.infer<typeof RegisterSchema>);
-      console.log(res);
       if (res.success) {
         authModal.closeModal();
+        return {
+          success: 'Login successful',
+          redirect: '/'
+        }
       }
     }
   };
@@ -133,7 +136,6 @@ const AuthModal = () => {
             />
           </>
         )}
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
