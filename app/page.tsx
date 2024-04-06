@@ -28,10 +28,11 @@ export default async function Home() {
           </div>
         </div>
         <div className="flex items-center justify-evenly">
+          {/* HIGHLIGHTED PRODUCTS COMPONENT */}
+          {/* <div>Product</div>
           <div>Product</div>
           <div>Product</div>
-          <div>Product</div>
-          <div>Product</div>
+          <div>Product</div> */}
         </div>
       </section>
     </main>

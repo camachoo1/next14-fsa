@@ -21,15 +21,16 @@ import Link from "next/link";
 import { login, register } from "@/actions/auth";
 
 const AuthModal = () => {
-  const authModal = useAuthModal();
+  // const authModal = useAuthModal();
+  const {modalType, openModal, isOpen, closeModal, toggleModal} = useAuthModal();
 
   const form = useForm<z.infer<typeof LoginSchema | typeof RegisterSchema>>({
     resolver:
-      authModal.modalType === "Login"
+      modalType === "Login"
         ? zodResolver(LoginSchema)
         : zodResolver(RegisterSchema),
     defaultValues:
-      authModal.modalType === "Login"
+      modalType === "Login"
         ? {
             email: "",
             password: "",
@@ -45,22 +46,22 @@ const AuthModal = () => {
   const onSubmit = async (
     values: z.infer<typeof LoginSchema | typeof RegisterSchema>,
   ) => {
-    if (authModal.modalType === "Login" && "password" in values) {
+    if (modalType === "Login" && "password" in values) {
       const res = await login(values as z.infer<typeof LoginSchema>);
       if (res.success) {
-        authModal.closeModal();
+        closeModal();
         return {
           success: "Login successful",
           redirect: "/",
         };
       }
     } else if (
-      authModal.modalType === "Register" &&
+      modalType === "Register" &&
       "confirmPassword" in values
     ) {
       const res = await register(values as z.infer<typeof RegisterSchema>);
       if (res.success) {
-        authModal.closeModal();
+        closeModal();
         return {
           success: 'Login successful',
           redirect: '/'
@@ -70,8 +71,8 @@ const AuthModal = () => {
   };
 
   const onToggle = useCallback(() => {
-    authModal.toggleModal();
-  }, [authModal]);
+    toggleModal();
+  }, [modalType]);
 
   const bodyContent = (
     <Form {...form}>
@@ -102,7 +103,7 @@ const AuthModal = () => {
             </FormItem>
           )}
         />
-        {authModal.modalType === "Register" && (
+        {modalType === "Register" && (
           <>
             <FormField
               control={form.control}
@@ -180,7 +181,7 @@ const AuthModal = () => {
 
       <div className="text-center">
         <button onClick={onToggle}>
-          {authModal.modalType === "Login"
+          {modalType === "Login"
             ? "Register Now"
             : "Login to your account"}
         </button>
@@ -189,12 +190,12 @@ const AuthModal = () => {
   );
   return (
     <Modal
-      isOpen={authModal.isOpen}
-      title={authModal.modalType as string}
+      isOpen={isOpen}
+      title={modalType as string}
       onSubmit={form.handleSubmit(onSubmit)}
       body={bodyContent}
       actionLabel="Continue"
-      onClose={authModal.closeModal}
+      onClose={closeModal}
       footer={footer}
     />
   );
