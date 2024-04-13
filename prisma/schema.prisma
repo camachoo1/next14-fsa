@@ -18,15 +18,6 @@ model User {
   sessions          Session[]
   oAuthAccount      OAuthAccount[]
   cart              Cart?
-  emailConfirmation emailConfirmation[]
-}
-
-model emailConfirmation {
-  id     String   @id @default(uuid())
-  userId String
-  code   String
-  sentAt DateTime
-  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
