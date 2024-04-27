@@ -11,13 +11,21 @@ datasource db {
 }
 
 model User {
-  id                String              @id @default(uuid())
+  id                String             @id @default(uuid())
   name              String
-  email             String              @unique
+  email             String             @unique
   hashedPassword    String?
   sessions          Session[]
   oAuthAccount      OAuthAccount[]
   cart              Cart?
+  emailVerification emailVerification?
+}
+
+model emailVerification {
+  id     String @id @default(uuid())
+  code   String
+  userId String @unique
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 model Session {
