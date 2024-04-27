@@ -61,6 +61,11 @@ export const validateRequest = cache(
   },
 );
 
+interface DatabaseUserAttributes extends DBUser {
+  email: string;
+  name: string;
+}
+
 // IMPORTANT!
 declare module "lucia" {
   interface Register {
