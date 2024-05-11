@@ -22,7 +22,8 @@ import { login, register } from "@/actions/auth";
 
 const AuthModal = () => {
   // const authModal = useAuthModal();
-  const {modalType, openModal, isOpen, closeModal, toggleModal} = useAuthModal();
+  const { modalType, openModal, isOpen, closeModal, toggleModal } =
+    useAuthModal();
 
   const form = useForm<z.infer<typeof LoginSchema | typeof RegisterSchema>>({
     resolver:
@@ -55,17 +56,14 @@ const AuthModal = () => {
           redirect: "/",
         };
       }
-    } else if (
-      modalType === "Register" &&
-      "confirmPassword" in values
-    ) {
+    } else if (modalType === "Register" && "confirmPassword" in values) {
       const res = await register(values as z.infer<typeof RegisterSchema>);
       if (res.success) {
         closeModal();
         return {
-          success: 'Login successful',
-          redirect: '/'
-        }
+          success: "Login successful",
+          redirect: "/",
+        };
       }
     }
   };
@@ -181,9 +179,7 @@ const AuthModal = () => {
 
       <div className="text-center">
         <button onClick={onToggle}>
-          {modalType === "Login"
-            ? "Register Now"
-            : "Login to your account"}
+          {modalType === "Login" ? "Register Now" : "Login to your account"}
         </button>
       </div>
     </>

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 type ModalType = "Login" | "Register" | null;
+
 type AuthModalProps = {
   modalType: ModalType;
   isOpen: boolean;

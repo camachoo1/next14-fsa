@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+
 interface ProductCardProps {
   imgs: string[];
   alt: string;
