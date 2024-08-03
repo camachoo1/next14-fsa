@@ -100,10 +100,10 @@ export default function Modal({
               rounded-lg 
               border-0 
               bg-white 
-              dark:bg-background
-              shadow-lg 
+              shadow-lg
               outline-none 
               focus:outline-none 
+              dark:bg-background 
               md:h-auto 
               lg:h-auto"
             >

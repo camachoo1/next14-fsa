@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { Lucia, User, Session } from "lucia";
-import { db } from '../db/db';
+import { db } from "../db/db";
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { User as DBUser } from "@prisma/client";
@@ -70,6 +70,6 @@ interface DatabaseUserAttributes extends DBUser {
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: Omit<DBUser, 'hashedPassword'>;
+    DatabaseUserAttributes: Omit<DBUser, "hashedPassword">;
   }
 }
